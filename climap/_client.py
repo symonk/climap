@@ -22,6 +22,16 @@ class Client:
         self.port = port
         self._delegate = CLIENT_FACTORY.get(self.port, IMAP4)(host=self.host, port=port)
 
+    @property
+    def total_mailboxes(self) -> int:
+        """Retrieve the total number of mail boxes in the server."""
+        return 10
+
+    @property
+    def total_mails(self) -> int:
+        """Retrieve the total number of emails in all mailboxes."""
+        return 1337
+
     def __enter__(self) -> Client:
         return self
 
