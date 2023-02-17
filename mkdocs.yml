@@ -1,6 +1,5 @@
 site_name: Climap 
 site_description: A Rich command line utility for IMAP
-site_url:
 theme:
   name: material
   features:
