@@ -1,0 +1,5 @@
+services:
+  dovecot:
+    image: dovecot/dovecot
+    ports:
+      - "993:993"
