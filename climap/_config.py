@@ -1,7 +1,9 @@
-from dataclasses import dataclasses
+from dataclasses import dataclass
 
-@dataclasses.dataclass(frozen=True)
+
+@dataclass(frozen=True)
 class Config:
     """An encapsulation of the runtime configuration."""
+
     host: str
     port: int = 993
