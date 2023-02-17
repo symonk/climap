@@ -5,6 +5,8 @@ import typing
 from imaplib import IMAP4
 from imaplib import IMAP4_SSL
 
+from ._console import console
+
 CLIENT_FACTORY = {993: IMAP4_SSL, 143: IMAP4}
 
 
@@ -20,7 +22,16 @@ class Client:
     def __init__(self, host: str, port: int) -> None:
         self.host = host
         self.port = port
-        self._delegate = CLIENT_FACTORY.get(self.port, IMAP4)(host=self.host, port=port)
+        self._delegate = self.initialise_client()
+
+    def initialise_client(self) -> typing.Union[IMAP4, IMAP4_SSL]:
+        """Initialise the underlying wrapped client."""
+        try:
+            client = CLIENT_FACTORY.get(self.port, IMAP4)(host=self.host, port=self.port)
+            return client
+        except ConnectionError:
+            console.print_exception()
+            raise
 
     @property
     def total_mailboxes(self) -> int:

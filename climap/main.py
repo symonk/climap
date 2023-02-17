@@ -1,8 +1,13 @@
+"""" The main logic of the live terminal output.
+
+Exit codes are as follows:
+    1 - Unable to establish a connection to the imap server
+"""
+
 import time
 import typing
 
 from rich import print
-from rich.console import Console
 from rich.live import Live
 from rich.prompt import IntPrompt
 from rich.prompt import Prompt
@@ -12,19 +17,21 @@ from .__version__ import __version__
 from ._client import Client
 from ._layout import layout
 
-console = Console()
-
 
 def main() -> int:
     """Main entry point into cli map."""
     host, port = initialise()
     spinner = Spinner(name="aesthetic", text="Connecting to the imap server...")
     with Live(spinner) as live:
-        with Client(host=host, port=port):
-            live.update(layout)
-            while True:
-                time.sleep(10)
-                break
+        time.sleep(5)  # mock for now.
+        try:
+            with Client(host=host, port=port):
+                live.update(layout)
+                while True:
+                    time.sleep(10)  # mock for now.
+                    break
+        except ConnectionError:
+            return 1
     return 0
 
 
