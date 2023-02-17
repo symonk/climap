@@ -5,6 +5,8 @@ import typing
 from imaplib import IMAP4
 from imaplib import IMAP4_SSL
 
+CLIENT_FACTORY = {993: IMAP4_SSL, 143: IMAP4}
+
 
 class Client:
     """An encapsulation of an IMAP Client.  This client is underpinned by
@@ -18,9 +20,7 @@ class Client:
     def __init__(self, host: str, port: int) -> None:
         self.host = host
         self.port = port
-        self._delegate = (
-            IMAP4_SSL(host=self.host, port=self.port) if port == 993 else IMAP4(host=self.host, port=self.port)
-        )
+        self._delegate = CLIENT_FACTORY.get(self.port, IMAP4)(host=self.host, port=port)
 
     def __enter__(self) -> Client:
         return self
