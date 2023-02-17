@@ -7,7 +7,7 @@ version = pkg_resources.get_distribution("climap")
 layout = Layout()
 
 layout.split(
-    Layout(name=f"{version}", size=2),
+    Layout(name=f"{version}", size=4),
     Layout(name="metadata", size=8),
     Layout(
         name="body",

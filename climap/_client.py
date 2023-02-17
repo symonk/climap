@@ -5,9 +5,9 @@ import typing
 from imaplib import IMAP4
 from imaplib import IMAP4_SSL
 
+from ._config import Config
 from ._console import console
-
-CLIENT_FACTORY = {993: IMAP4_SSL, 143: IMAP4}
+from ._types import MailBoxesType
 
 
 class Client:
@@ -19,17 +19,21 @@ class Client:
     :param port: The imap server port.
     """
 
-    def __init__(self, host: str, port: int) -> None:
-        self.host = host
-        self.port = port
+    def __init__(self, config: Config) -> None:
+        self.config = config
         self._delegate = self.initialise_client()
 
     def initialise_client(self) -> typing.Union[IMAP4, IMAP4_SSL]:
         """Initialise the underlying wrapped client."""
+        client_cls = IMAP4_SSL if self.config.ssl else IMAP4
         try:
-            client = CLIENT_FACTORY.get(self.port, IMAP4)(host=self.host, port=self.port)
+            client = client_cls(**self.config.client_args)
+            client.login(self.config.user, self.config.password)
             return client
         except ConnectionError:
+            console.print_exception()
+            raise
+        except IMAP4.error:
             console.print_exception()
             raise
 
@@ -42,6 +46,18 @@ class Client:
     def total_mails(self) -> int:
         """Retrieve the total number of emails in all mailboxes."""
         return 1337
+
+    def retrieve_mailboxes(self, directory: str = '""', pattern: str = "*") -> MailBoxesType:
+        """Retrieves all the mailboxes available in the server.
+
+        :param directory: The directory to recurse, top-level by default.
+        :param pattern: Pattern to apply to names, matches anything by default.
+        """
+        return self._delegate.list()
+
+    def close(self) -> None:
+        """Close the underlying imap client."""
+        self._delegate.close()
 
     def __enter__(self) -> Client:
         return self
