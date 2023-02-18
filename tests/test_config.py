@@ -2,7 +2,7 @@ from climap import Configuration
 
 
 def test_config_imap_args_are_correct(user_and_password) -> None:
-    assert Configuration(**user_and_password).client_args == user_and_password
+    assert Configuration(**user_and_password).client_args == {"host": "localhost", "port": 993}
 
 
 def test_config_defaults_are_correct(user_and_password) -> None:
