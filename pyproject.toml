@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "climap"
-version = "0.1.0"
+version = "0.1.1"
 description = "A rich command line utility for accessing emails"
 authors = ["symonk <jackofspaces@gmail.com>"]
 readme = "README.md"
