@@ -17,14 +17,14 @@ from rich.spinner import Spinner
 
 from .__version__ import __version__
 from ._client import Client
-from ._config import Config
+from ._config import Configuration
 from ._console import console
 from ._layout import layout
 
 
 def main() -> int:
     """Main entry point into cli map."""
-    config: Config = initialise()
+    config: Configuration = initialise()
     spinner = Spinner(name="aesthetic", text="Connecting to the imap server...")
     panel = Panel(spinner)
 
@@ -43,7 +43,7 @@ def main() -> int:
     return 0
 
 
-def initialise() -> Config:
+def initialise() -> Configuration:
     """Prompt for configuration."""
     print(f"[{__version__} Successfully loaded.]")
     host = Prompt().ask(":rocket: What is the host of the imap server", default="localhost")
@@ -51,7 +51,7 @@ def initialise() -> Config:
     ssl = IntPrompt().ask(":rocket: Use an ssl client", default=True)
     user = Prompt().ask(":couple: What is the imap username")
     password = Prompt().ask(":unlock: Enter the password", password=True)
-    return Config(host=host, port=port, ssl=ssl, user=user, password=password)
+    return Configuration(host=host, port=port, ssl=ssl, user=user, password=password)
 
 
 if __name__ == "__main__":

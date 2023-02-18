@@ -3,17 +3,19 @@ from typing import TypedDict
 
 
 class ClientArgs(TypedDict):
+    """Encapsulation of a plain IMAP authentication scheme."""
+
     host: str
     port: int
 
 
 @dataclass(frozen=True)
-class Config:
+class Configuration:
     """An encapsulation of the runtime configuration."""
 
-    host: str
     user: str
     password: str
+    host: str = "localhost"
     port: int = 993
     ssl: bool = True
 

@@ -5,7 +5,7 @@ import typing
 from imaplib import IMAP4
 from imaplib import IMAP4_SSL
 
-from ._config import Config
+from ._config import Configuration
 from ._console import console
 from ._types import MailBoxesType
 
@@ -19,7 +19,7 @@ class Client:
     :param port: The imap server port.
     """
 
-    def __init__(self, config: Config) -> None:
+    def __init__(self, config: Configuration) -> None:
         self.config = config
         self._delegate = self.initialise_client()
 
