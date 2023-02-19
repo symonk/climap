@@ -5,7 +5,7 @@ from .__version__ import __version__
 from ._config import Configuration
 
 
-class Header:
+class HeaderView:
     """A renderable for the Application header."""
 
     def __init__(self, config: Configuration) -> None:
@@ -16,9 +16,7 @@ class Header:
         return Panel(
             renderable=Text(
                 text=f"Authenticated as {self.config.user} on {self.config.host}:{self.config.port}",
-                style="magenta",
                 justify="center",
             ),
-            title="Climap",
-            style="magenta",
+            title="climap",
         )

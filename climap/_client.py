@@ -55,6 +55,10 @@ class Client:
         """
         return self._delegate.list()
 
+    def quota(self, root: str) -> typing.Tuple[str, typing.List[typing.Any]]:
+        """Retrieve the roots resource usage and limits."""
+        return self._delegate.getquota(root)
+
     def close(self) -> None:
         """Close the underlying imap client."""
         self._delegate.close()

@@ -24,12 +24,12 @@ from ._layout import generate_base_layout
 def main() -> int:
     """Main entry point into cli map."""
     config: Configuration = initialise()
-    layout = generate_base_layout(config=config)
     init = SessionView(config=config)
     with Live(renderable=init, console=console, refresh_per_second=20) as live:
         time.sleep(1)  # mock for now.
         try:
             with Client(config=config) as client:  # noqa
+                layout = generate_base_layout(config=config, client=client)
                 while True:
                     live.update(layout)
                     time.sleep(10)  # mock for now.
