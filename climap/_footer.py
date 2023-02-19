@@ -9,4 +9,4 @@ class FooterView:
         self.client = client
 
     def __rich__(self) -> Panel:
-        return Panel(title="Footer", renderable=Text(text=self.client.quota("*"), justify="center"))
+        return Panel(title="Footer", renderable=Text(text="placeholder", justify="center"))

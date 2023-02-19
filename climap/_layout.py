@@ -17,5 +17,9 @@ def generate_base_layout(config: Configuration, client: Client) -> Layout:
     meta_data = Layout(name="metadata", size=2)
     footer = Layout(name="footer", renderable=FooterView(client=client), size=3)
     base.split(header, meta_data, footer)
-    base["metadata"].split_row(Layout(name="mailboxes"), Layout("name=emails"))
+    base["metadata"].split_row(
+        Layout(name="mailboxes"),
+        Layout(name="emails"),
+        Layout(name="placeholder"),
+    )
     return base
