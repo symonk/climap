@@ -10,26 +10,23 @@ import time
 
 from rich import print
 from rich.live import Live
-from rich.panel import Panel
 from rich.prompt import IntPrompt
 from rich.prompt import Prompt
-from rich.spinner import Spinner
 
+from .__version__ import __version__
 from ._client import Client
 from ._config import Configuration
 from ._console import console
+from ._initialiser import SessionView
 from ._layout import generate_base_layout
-from ._version import VERSION
 
 
 def main() -> int:
     """Main entry point into cli map."""
     config: Configuration = initialise()
-    spinner = Spinner(name="aesthetic", text="Connecting to the imap server...")
-    panel = Panel(spinner)
     layout = generate_base_layout(config=config)
-
-    with Live(renderable=panel, console=console) as live:
+    init = SessionView(config=config)
+    with Live(renderable=init, console=console, refresh_per_second=20) as live:
         time.sleep(1)  # mock for now.
         try:
             with Client(config=config) as client:  # noqa
@@ -46,7 +43,7 @@ def main() -> int:
 
 def initialise() -> Configuration:
     """Prompt for configuration."""
-    print(f"[{VERSION} Successfully loaded.]")
+    print(f"[{__version__} Successfully loaded.]")
     host = Prompt().ask(":rocket: What is the host of the imap server", default="localhost")
     port = IntPrompt().ask(":rocket: What is the port of the imap server", default=993)
     ssl = IntPrompt().ask(":rocket: Use an ssl client", default=True)

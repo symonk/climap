@@ -1,12 +1,8 @@
 from rich.panel import Panel
 from rich.text import Text
 
+from .__version__ import __version__
 from ._config import Configuration
-from ._version import VERSION
-
-
-class _HeaderStyle:
-    """Styling for the header object."""
 
 
 class Header:
@@ -14,14 +10,15 @@ class Header:
 
     def __init__(self, config: Configuration) -> None:
         self.config = config
+        self.version = __version__
 
     def __rich__(self) -> Text:
         return Panel(
             renderable=Text(
                 text=f"Authenticated as {self.config.user} on {self.config.host}:{self.config.port}",
-                style="red on white",
+                style="magenta",
                 justify="center",
             ),
-            title=VERSION,
-            style="green on black",
+            title="Climap",
+            style="magenta",
         )
