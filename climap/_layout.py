@@ -22,4 +22,5 @@ def generate_base_layout(config: Configuration, client: Client) -> Layout:
         Layout(name="emails"),
     )
     base["metadata"]["meta"].split_column(Layout(name="Connection"), Layout(name="Mailboxes"))
+    base["metadata"]["meta"]["Connection"].split_row(Layout(name="connection_info"), Layout(name="tasks"))
     return base
