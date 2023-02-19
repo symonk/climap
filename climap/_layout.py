@@ -1,26 +1,18 @@
-import pkg_resources
 from rich.layout import Layout
 
-version = pkg_resources.get_distribution("climap")
+from ._config import Configuration
+from ._header import Header
 
 
-layout = Layout()
+def generate_base_layout(config: Configuration) -> Layout:
+    """Generates the full screen layout for climap.
 
-layout.split(
-    Layout(name=f"{version}", size=4),
-    Layout(name="metadata", size=8),
-    Layout(
-        name="body",
-    ),
-    Layout(name="footer", size=4),
-)
+    :param config: The Configuration object.
+    """
 
-layout["metadata"].split_row(Layout(name="mailboxes"), Layout(name="mails"), Layout(name="session"))
-
-layout["body"].split(
-    Layout(name="side"),
-    Layout(name="core", ratio=2),
-    splitter="row",
-)
-
-layout["side"].split(Layout())
+    base = Layout()
+    header = Layout(name="header", renderable=Header(config), size=3)
+    base.split(
+        header,
+    )
+    return base
