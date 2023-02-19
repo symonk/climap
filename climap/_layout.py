@@ -13,13 +13,13 @@ def generate_base_layout(config: Configuration, client: Client) -> Layout:
     """
 
     base = Layout()
-    header = Layout(name="header", renderable=HeaderView(config), size=3)
-    meta_data = Layout(name="metadata", size=2)
-    footer = Layout(name="footer", renderable=FooterView(client=client), size=3)
+    header = Layout(name="header", renderable=HeaderView(config), size=2)
+    meta_data = Layout(name="metadata")
+    footer = Layout(name="footer", renderable=FooterView(client=client), size=2)
     base.split(header, meta_data, footer)
     base["metadata"].split_row(
-        Layout(name="mailboxes"),
+        Layout(name="meta"),
         Layout(name="emails"),
-        Layout(name="placeholder"),
     )
+    base["metadata"]["meta"].split_column(Layout(name="Connection"), Layout(name="Mailboxes"))
     return base
