@@ -4,6 +4,7 @@ from ._client import Client
 from ._config import Configuration
 from ._footer import FooterView
 from ._header import HeaderView
+from ._mailboxes import MailboxView
 
 
 def generate_base_layout(config: Configuration, client: Client) -> Layout:
@@ -21,6 +22,10 @@ def generate_base_layout(config: Configuration, client: Client) -> Layout:
         Layout(name="meta"),
         Layout(name="emails"),
     )
-    base["metadata"]["meta"].split_column(Layout(name="Connection"), Layout(name="Mailboxes"))
+
+    base["metadata"]["meta"].split_column(
+        Layout(name="Connection"),
+        Layout(name="Mailboxes", renderable=MailboxView(client)),
+    )
     base["metadata"]["meta"]["Connection"].split_row(Layout(name="connection_info"), Layout(name="tasks"))
     return base
